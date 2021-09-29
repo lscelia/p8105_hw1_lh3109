@@ -1,0 +1,75 @@
+---
+title: "p8105_hw1_lh3109"
+author: "Lesi He"
+output: html_document
+---
+
+I'm an R Markdown document! 
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+
+# Problem 1
+
+```{r, message = FALSE, warning = FALSE}
+#creates a data frame
+sample_df = tibble(
+  #create 10 random normal variable 
+  norm_sample = rnorm(10),
+  #logical vector indicating whether elements of the sample are greater than 0
+  norm_samp_pos = norm_sample > 0,
+  #character vector with length of 10
+  character_vec = letters[1:10],
+  #factor vectors with 3 factor levels
+  factor_vec = factor(c("A", "C", "B","C","A", "C", "B","B","A", "A"), levels = c("A", "B", "C")),
+  
+  #try mean
+  #x = mean(norm_samp_pos),
+  #y = mean(character_vec),
+  #z = mean(factor_vec)
+  
+  #try as.numeric
+  #logical = as.numeric(norm_samp_pos),
+  #character = as.numeric(character_vec),
+  #factor = as.numeric(factor_vec)
+)
+
+sample_df
+```
+The mean function cannot be applied to the character vectors and factor vectors, while it can be applied to the logical variables.
+
+After applying 'as.numeric' function to the logical, character, and factor variables, all of these variables change their data type. For logical variable, 'TRUE' is converted to 1 and 'FALSE' is converted to '0'. This makes sense as binary number can be used to demonstrate numbering scheme that only contains two possible outcomes. In the case of factor variables, the variables are converted to numbers based on the factor levels. It is reasonable as the vectors with same factor numbers are the same. Finally, the character variables all change to NA. This also make sense to me because the characters are all different and it will be hard to stratified or represented by digits. This function helps explain what happens when I try to take the mean. 
+
+# Problem 2
+
+```{r message = FALSE, warning = FALSE}
+#load dataset
+data("penguins", package = "palmerpenguins")
+
+#clean names
+penguins = janitor::clean_names(penguins)
+#find names of the variables
+names(penguins)
+
+#find number of rows
+nrow(penguins)
+#find number of columns
+ncol(penguins)
+
+#find the mean of flipper length, neglect NA value
+mean(penguins$flipper_length_mm, na.rm = TRUE)
+
+#scatter plot of flipper_length_mm vs bill_length_mm
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point() + labs(title = "Flipper_length_mm vs Bill_length_mm" )
+
+#save the plot
+ggsave("Flipper_length_mm vs Bill_length_mm.png")
+```
+
+The "penguins" dataset contains different variables including species, island, bill length in mm, bill depth in mm, flipper length in mm, body mass in g, sex and year. There are 344 rows and 8 columns in this set. After neglecting the NA value in the column, the mean of the flipper length is 200.9152 mm.
+
+
+
+
